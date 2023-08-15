@@ -1,53 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sofomo_task/respositories_network_controller.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sofomo_task/UI/repositories_list/repositories_list_scaffold.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: GithubSofomoApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class GithubSofomoApp extends StatelessWidget {
+  const GithubSofomoApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Sofomo Github Task',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyScaffoldWithButton(),
-    );
-  }
-}
-
-class MyScaffoldWithButton extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(repositoriesProvider).isLoading;
-    final data = ref.watch(repositoriesProvider).data ?? [];
-    final onPress = () {
-      ref
-          .read(repositoriesProvider.notifier)
-          .fetchRepositories('MarcinMichalskii');
-    };
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Scaffold with Button'),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: onPress,
-              child: Text('Click Me'),
-            ),
-            if (isLoading) CircularProgressIndicator(),
-            ...data.map((e) => Text(e.name))
-          ],
-        ),
-      ),
+      home: RepositoriesListScaffold(),
     );
   }
 }

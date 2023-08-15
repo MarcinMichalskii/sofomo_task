@@ -13,7 +13,6 @@ mixin APIParser {
           .map((item) => fromJson(item as Map<String, dynamic>))
           .toList(growable: false);
     } catch (e) {
-      print(e);
       return [];
     }
   }
